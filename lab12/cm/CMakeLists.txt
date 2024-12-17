@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.10)
+add_subdirectory("./back/")
+add_subdirectory("./pipes/")
+include_directories("./back/","./pipes/")
+set(EXE ./src/main.c)
+add_executable(main ${EXE})
+target_link_libraries(main LIBR LIBRARY)

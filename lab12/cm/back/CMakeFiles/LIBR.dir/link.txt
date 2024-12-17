@@ -1,0 +1,2 @@
+/usr/bin/ar qc libLIBR.a  CMakeFiles/LIBR.dir/back.c.o
+/usr/bin/ranlib libLIBR.a

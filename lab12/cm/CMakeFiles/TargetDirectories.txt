@@ -1,0 +1,9 @@
+/home/rock/labs/prac_prog/lab12/cm/CMakeFiles/rebuild_cache.dir
+/home/rock/labs/prac_prog/lab12/cm/CMakeFiles/edit_cache.dir
+/home/rock/labs/prac_prog/lab12/cm/CMakeFiles/main.dir
+/home/rock/labs/prac_prog/lab12/cm/back/CMakeFiles/rebuild_cache.dir
+/home/rock/labs/prac_prog/lab12/cm/back/CMakeFiles/edit_cache.dir
+/home/rock/labs/prac_prog/lab12/cm/back/CMakeFiles/LIBR.dir
+/home/rock/labs/prac_prog/lab12/cm/pipes/CMakeFiles/rebuild_cache.dir
+/home/rock/labs/prac_prog/lab12/cm/pipes/CMakeFiles/edit_cache.dir
+/home/rock/labs/prac_prog/lab12/cm/pipes/CMakeFiles/LIBRARY.dir

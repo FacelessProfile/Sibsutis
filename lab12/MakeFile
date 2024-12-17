@@ -1,0 +1,13 @@
+main.o:
+	gcc -c app/main.c -I ../background/ -o main
+back.o:
+	gcc -c background/back.c -I ../pipes/pipes.h -o back
+read_pipe.o:
+	gcc -c pipes/read_pipe.c -o read_pipe
+write_pipe.o:
+	gcc -c pipes/write_pipe.c -o write_pipe
+
+end: main.o back.o read_pipe.o write_pipe.o
+	gcc main.o back.o read_pipe.o write_pipe.o -o out
+clean:
+	rm -rf *.o
