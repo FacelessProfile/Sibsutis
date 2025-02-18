@@ -3,14 +3,12 @@
 #include <string.h>
 #include <time.h>
 #include <sys/time.h>
-
 #define N_SMALL 100
 #define N_MEDIUM 10000
 #define N_LARGE 100000
 #define NAME_LENGTH 64
 #define MAX_GRADE 100
 
-// Структура данных Student
 struct Student {
     char name[NAME_LENGTH];
     int math;
@@ -19,34 +17,30 @@ struct Student {
     int total;
 };
 
-// Функция создания студента
+
 struct Student addStudent(const char *name, int math, int physics, int informatics) {
     struct Student newStudent;
-    strncpy(newStudent.name, name, NAME_LENGTH - 1);
-    newStudent.name[NAME_LENGTH - 1] = '\0';
-    newStudent.math = math;
-    newStudent.physics = physics;
+    strncpy(newStudent.name, name, NAME_LENGTH-1);
+    newStudent.math =math;
+    newStudent.physics =physics;
     newStudent.informatics = informatics;
     newStudent.total = math + physics + informatics;
     return newStudent;
 }
 
-// Функция вывода информации о студенте
 void printStudentInfo(struct Student student) {
-    printf("Имя: %s | Математика: %d | Физика: %d | Информатика: %d | Общий балл: %d\n",
+    printf("name: %s | math: %d | phy: %d | inf: %d | total: %d\n",
            student.name, student.math, student.physics, student.informatics, student.total);
 }
 
-// Генерация случайного имени
 void generateRandomName(char *name, int length) {
     static const char charset[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     for (int i = 0; i < length - 1; i++) {
         name[i] = charset[rand() % (sizeof(charset) - 1)];
     }
-    name[length - 1] = '\0';
 }
 
-// Заполнение массива студентов случайными данными
+
 void generateStudents(struct Student students[], int size) {
     for (int i = 0; i < size; i++) {
         char randomName[NAME_LENGTH];
@@ -58,7 +52,6 @@ void generateStudents(struct Student students[], int size) {
     }
 }
 
-// *** 1. Сортировка выбором ***
 void selectionSort(struct Student arr[], int size) {
     for (int i = 0; i < size - 1; i++) {
         int maxIndex = i;
@@ -75,38 +68,31 @@ void selectionSort(struct Student arr[], int size) {
     }
 }
 
-// *** 2. Сортировка подсчетом (Counting Sort) ***
 void countingSort(struct Student arr[], int size) {
     struct Student output[size];
     int count[MAX_GRADE * 3 + 1] = {0};
 
-    // Заполняем массив частот
     for (int i = 0; i < size; i++) {
         count[arr[i].total]++;
     }
 
-    // Преобразуем count в кумулятивную сумму
     for (int i = 1; i <= MAX_GRADE * 3; i++) {
         count[i] += count[i - 1];
     }
-
-    // Заполняем отсортированный массив
     for (int i = size - 1; i >= 0; i--) {
         output[count[arr[i].total] - 1] = arr[i];
         count[arr[i].total]--;
     }
 
-    // Копируем результат обратно
     for (int i = 0; i < size; i++) {
-        arr[i] = output[size - 1 - i]; // Разворачиваем для убывания
+        arr[i] = output[size - 1 - i];
     }
 }
 
-// *** 3. Быстрая сортировка (QuickSort) ***
-void quickSort(struct Student arr[], int left, int right) {
+void quickSort(struct Student arr[], int left,int right) {
     if (left >= right) return;
 
-    int pivot = arr[(left + right) / 2].total;
+    int pivot = arr[(left + right)/2].total;
     int i = left, j = right;
     while (i <= j) {
         while (arr[i].total > pivot) i++;
@@ -123,7 +109,7 @@ void quickSort(struct Student arr[], int left, int right) {
     quickSort(arr, i, right);
 }
 
-// Функция измерения времени работы сортировки
+
 double measureTime(void (*sortFunc)(struct Student[], int), struct Student arr[], int size) {
     struct timeval start, end;
     gettimeofday(&start, NULL);
@@ -132,31 +118,51 @@ double measureTime(void (*sortFunc)(struct Student[], int), struct Student arr[]
     return (end.tv_sec - start.tv_sec) * 1000.0 + (end.tv_usec - start.tv_usec) / 1000.0;
 }
 
+
+void printHead(int n,struct Student arr[]){
+	for(int x=0;x<n;x++){
+	struct Student student=arr[x];
+	 printf("name: %s | math: %d | phy: %d | inf: %d | total: %d\n",
+           student.name, student.math, student.physics, student.informatics, student.total);
+	}
+}
+
 int main() {
     srand(time(NULL));
 
-    // Вывод информации о процессоре
-    printf("Информация о процессоре:\n");
+    printf("processor info:\n");
     system("cat /proc/cpuinfo | grep -E 'model name|cpu MHz'");
 
-    // Тестирование сортировок для N_SMALL, N_MEDIUM, N_LARGE
     int sizes[] = {N_SMALL, N_MEDIUM, N_LARGE};
     char *sortNames[] = {"Selection Sort", "Counting Sort", "Quick Sort"};
-    void (*sortFuncs[])(struct Student[], int) = {selectionSort, countingSort, quickSort};
-
+    void (*sortFuncs[])(struct Student arr[],int size) = {selectionSort,countingSort};
     for (int s = 0; s < 3; s++) {
         int size = sizes[s];
         struct Student *students = malloc(size * sizeof(struct Student));
         generateStudents(students, size);
 
-        printf("\nТест для N = %d:\n", size);
-        for (int i = 0; i < 3; i++) {
+        printf("\ntestin for N = %d:\n", size);
+        for (int i = 0; i<2;i++) {
             struct Student *copy = malloc(size * sizeof(struct Student));
             memcpy(copy, students, size * sizeof(struct Student));
-            double timeTaken = measureTime(sortFuncs[i], copy, size);
-            printf("%s: %.2f мс\n", sortNames[i], timeTaken);
-            free(copy);
+            double timeTaken = measureTime(sortFuncs[i],copy,size);
+            printf("%s: %.2f milliseconds\n", sortNames[i], timeTaken);
+	    printf("\n\n");
+	    printHead(10,copy);
+	    printf("\n\n");
         }
+	
+	    struct Student *copy = malloc(size * sizeof(struct Student));
+            memcpy(copy, students, size * sizeof(struct Student));
+            struct timeval start, end;
+    	    gettimeofday(&start, NULL);
+   	    quickSort(copy,0,size-1);
+    	    gettimeofday(&end, NULL);
+   	   double timeTaken=(end.tv_sec - start.tv_sec) * 1000.0 + (end.tv_usec - start.tv_usec) / 1000.0;
+            printf("%s: %.2f milliseconds\n", "quickSort", timeTaken);
+	    printf("\n\n");
+	    printHead(10,copy);
+            free(copy);
         free(students);
     }
 
