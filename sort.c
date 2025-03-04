@@ -13,4 +13,4 @@ void selectionSort(struct Student arr[], int size) {
         }
     }
 }
-//komentarey
+//komentarey pon?
