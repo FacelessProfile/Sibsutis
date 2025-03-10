@@ -13,4 +13,13 @@ void selectionSort(struct Student arr[], int size) {
         }
     }
 }
+int main() {
+    int a[] = {4, 2, 0};
+    int n = sizeof(a) / sizeof(a[0]);
+    sort(a, n);
+    for (int i = 0; i < n; i++) {
+        printf("%d ", a[i]);
+    }
+    return 0;
+}
 //komentarey pon?
